@@ -1,52 +1,72 @@
 #include <Arduino.h>
 #include <BLEDevice.h>
+#include <atomic>
 
 const int BUTTON_PIN = 18;
-const char *SERVICE_UUID = "2b92513e-afed-40ac-afa6-e54c63acdceb";
+const char *SERVICE_UUIDS[] = {
+  "2b92513e-afed-40ac-afa6-e54c63acdceb",
+  "2b92513e-afed-40ac-afa6-e54c63acdcec",
+  "2b92513e-afed-40ac-afa6-e54c63acdced"
+};
 const char *CHAR_UUID = "ea3d7c32-0013-4447-8f7b-47b959b5cddc";
 
-BLEClient *client;
+struct Slave {
+  BLEClient *client = nullptr;
+  BLERemoteCharacteristic *led = nullptr;
+  int sentState = -1;
+};
+
+Slave slaves[3];
 BLEScan *scan;
-BLERemoteCharacteristic *led = nullptr;
+std::atomic<bool> scanReady(false);
+unsigned long lastScan = 0;
 bool lastReading = false;
 bool pressed = false;
 unsigned long changedAt = 0;
-int sentState = -1;
 
-void connectToSlave() {
-  Serial.println("Scanning...");
-  BLEScanResults *results = scan->start(2, false);
+void scanFinished(BLEScanResults results) {
+  scanReady = true;
+}
+
+void connectSlaves() {
+  BLEScanResults *results = scan->getResults();
   if (results == nullptr) return;
 
   for (int i = 0; i < results->getCount(); i++) {
     BLEAdvertisedDevice device = results->getDevice(i);
-    if (!device.haveServiceUUID() ||
-        !device.isAdvertisingService(BLEUUID(SERVICE_UUID))) continue;
+    if (!device.haveServiceUUID()) continue;
 
-    Serial.println("Connecting...");
-    if (!client->connect(device.getAddress(), device.getAddressType(), 5000)) {
-      Serial.println("Connection failed");
+    for (int n = 0; n < 3; n++) {
+      Slave &slave = slaves[n];
+      if (slave.client->isConnected() ||
+          !device.isAdvertisingService(BLEUUID(SERVICE_UUIDS[n]))) continue;
+
+      Serial.printf("Connecting slave %d...\n", n + 1);
+      slave.led = nullptr;
+      if (!slave.client->connect(device.getAddress(), device.getAddressType(), 5000)) {
+        Serial.printf("Slave %d connection failed\n", n + 1);
+        break;
+      }
+
+      // Refresh handles after a slave restarts.
+      slave.client->getServices();
+      BLERemoteService *service = slave.client->getService(SERVICE_UUIDS[n]);
+      slave.led = service ? service->getCharacteristic(BLEUUID(CHAR_UUID)) : nullptr;
+
+      if (slave.led && slave.led->canWrite() && slave.client->isConnected()) {
+        slave.sentState = -1;
+        Serial.printf("Slave %d connected\n", n + 1);
+      } else {
+        Serial.printf("Slave %d LED characteristic not found\n", n + 1);
+        slave.led = nullptr;
+        slave.client->disconnect();
+      }
       break;
     }
-
-    // Refresh handles in case the slave restarted.
-    client->getServices();
-    BLERemoteService *service = client->getService(SERVICE_UUID);
-    led = service ? service->getCharacteristic(BLEUUID(CHAR_UUID)) : nullptr;
-
-    if (led && led->canWrite() && client->isConnected()) {
-      Serial.println("Connected");
-      lastReading = pressed = digitalRead(BUTTON_PIN) == LOW;
-      changedAt = millis();
-      sentState = -1;
-    } else {
-      Serial.println("LED characteristic not found");
-      led = nullptr;
-      client->disconnect();
-    }
-    break;
   }
   scan->clearResults();
+  lastReading = pressed = digitalRead(BUTTON_PIN) == LOW;
+  changedAt = millis();
 }
 
 void setup() {
@@ -56,22 +76,15 @@ void setup() {
   BLEDevice::init("BCA188 Master");
   Serial.print("Master MAC: ");
   Serial.println(BLEDevice::getAddress().toString().c_str());
-  client = BLEDevice::createClient();
+  for (Slave &slave : slaves) slave.client = BLEDevice::createClient();
   scan = BLEDevice::getScan();
   scan->setActiveScan(true);
   scan->setInterval(100);
   scan->setWindow(80);
+  lastScan = millis() - 3000;
 }
 
 void loop() {
-  if (!client->isConnected()) {
-    if (led) Serial.println("Disconnected");
-    led = nullptr;
-    connectToSlave();
-    delay(50);
-    return;
-  }
-
   bool reading = digitalRead(BUTTON_PIN) == LOW;
   if (reading != lastReading) {
     lastReading = reading;
@@ -80,17 +93,38 @@ void loop() {
 
   if (millis() - changedAt >= 30) {
     pressed = reading;
-    if (led && sentState != pressed) {
+  }
+
+  bool missingSlave = false;
+  for (int n = 0; n < 3; n++) {
+    Slave &slave = slaves[n];
+    if (!slave.client->isConnected()) {
+      if (slave.led) Serial.printf("Slave %d disconnected\n", n + 1);
+      slave.led = nullptr;
+      missingSlave = true;
+      continue;
+    }
+
+    if (slave.led && slave.sentState != pressed) {
       uint8_t value = pressed ? '1' : '0';
-      if (led->writeValue(&value, 1, true)) {
-        sentState = pressed;
-        Serial.println(pressed ? "LED ON" : "LED OFF");
+      if (slave.led->writeValue(&value, 1, true)) {
+        slave.sentState = pressed;
+        Serial.printf("Slave %d LED %s\n", n + 1, pressed ? "ON" : "OFF");
       } else {
-        Serial.println("Write failed; reconnecting");
-        led = nullptr;
-        client->disconnect();
+        Serial.printf("Slave %d write failed; reconnecting\n", n + 1);
+        slave.led = nullptr;
+        slave.client->disconnect();
+        missingSlave = true;
       }
     }
+  }
+
+  if (scanReady.exchange(false)) {
+    connectSlaves();
+  } else if (missingSlave && !scan->isScanning() && millis() - lastScan >= 3000) {
+    lastScan = millis();
+    Serial.println("Scanning...");
+    scan->start(2, scanFinished, false);
   }
   delay(5);
 }
