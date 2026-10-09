@@ -2,7 +2,7 @@
 
 **What materials are needed?**
 
-Two ESP32-WROOM-32 boards, two USB data cables, one button, one LED, one 330 Ω resistor, breadboards, jumper wires, and a computer with Arduino IDE.
+One ESP32-WROOM-32 master, three ESP32-S3 slaves, four USB data cables, one button, three LEDs, three 330 Ω resistors, breadboards, jumper wires, USB power, and a computer with Arduino IDE.
 
 **Are the original steps complete?**
 
@@ -10,4 +10,4 @@ No. The page mixes Bluetooth Classic and BLE, leaves out the connection procedur
 
 **How is the stored and analyzed data used?**
 
-Sensor readings can be stored to find patterns and help automate devices, such as turning on a fan when temperature rises. In this lab, the master sends the button state and the slave uses it to control the LED; the sketches do not store readings or perform data analysis.
+Sensor readings can be stored to find patterns and help automate devices, such as turning on a fan when temperature rises. In this lab, the master sends the button state to three slaves, which use it to control their LEDs. The sketches do not store readings or perform data analysis.
