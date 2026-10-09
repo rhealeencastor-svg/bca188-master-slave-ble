@@ -2,9 +2,15 @@
 #include <BLEDevice.h>
 #include <atomic>
 
-const int LED_PIN = 19;
-const char *SERVICE_UUID = "2b92513e-afed-40ac-afa6-e54c63acdceb";
+const int SLAVE_ID = 1;  // Use 1, 2, or 3 for the board being uploaded.
+const int LED_PIN = 4;
+const char *SERVICE_UUIDS[] = {
+  "2b92513e-afed-40ac-afa6-e54c63acdceb",
+  "2b92513e-afed-40ac-afa6-e54c63acdcec",
+  "2b92513e-afed-40ac-afa6-e54c63acdced"
+};
 const char *CHAR_UUID = "ea3d7c32-0013-4447-8f7b-47b959b5cddc";
+static_assert(SLAVE_ID >= 1 && SLAVE_ID <= 3, "SLAVE_ID must be 1, 2, or 3");
 
 std::atomic<bool> connected(false);
 std::atomic<bool> requestedOn(false);
@@ -40,13 +46,13 @@ void setup() {
   Serial.begin(115200);
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, LOW);
-  BLEDevice::init("BCA188 Slave");
-  Serial.print("Slave MAC: ");
+  BLEDevice::init(String("BCA188 Slave ") + SLAVE_ID);
+  Serial.printf("Slave %d MAC: ", SLAVE_ID);
   Serial.println(BLEDevice::getAddress().toString().c_str());
 
   BLEServer *server = BLEDevice::createServer();
   server->setCallbacks(&serverCallbacks);
-  BLEService *service = server->createService(SERVICE_UUID);
+  BLEService *service = server->createService(SERVICE_UUIDS[SLAVE_ID - 1]);
   BLECharacteristic *characteristic = service->createCharacteristic(
     CHAR_UUID, BLECharacteristic::PROPERTY_WRITE);
   characteristic->setCallbacks(&ledCallbacks);
@@ -54,7 +60,7 @@ void setup() {
   service->start();
 
   BLEAdvertising *advertising = BLEDevice::getAdvertising();
-  advertising->addServiceUUID(SERVICE_UUID);
+  advertising->addServiceUUID(SERVICE_UUIDS[SLAVE_ID - 1]);
   advertising->setScanResponse(true);
   BLEDevice::startAdvertising();
   Serial.println("Advertising");
