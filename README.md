@@ -1,18 +1,16 @@
 # BCA 188: Master and Slave BLE
 
-One ESP32-WROOM master controls the LEDs on two ESP32-S3 slaves through BLE. Hold the master's button to turn the LEDs on; release it to turn them off. A third slave sketch is included if needed.
+One ESP32-WROOM master controls the LEDs on three ESP32-S3 slaves through BLE. Hold the master's button to turn the LEDs on; release it to turn them off.
 
 [Lab instructions](https://jomvill.notion.site/BCA-188-Master-Slave-BLE-ESP32-f29c5d2c636e4019958866113371a94f)
 
 ## Materials
 
 - 1 ESP32-WROOM development board
-- 2 ESP32-S3 development boards
+- 3 ESP32-S3 development boards
 - 1 push button
-- 2 LEDs and 2 × 330 Ω resistors
-- USB data cables, jumper wires, and breadboards as needed
-
-For a third slave, add one S3, LED, resistor, and USB cable.
+- 3 LEDs and 3 × 330 Ω resistors
+- 4 USB data cables, jumper wires, and breadboards as needed
 
 ## Connections
 
@@ -31,7 +29,7 @@ Power each board through USB. If using a breadboard, connect the board's GND to 
 | Master | [master.ino](master/master.ino) | ESP32 Dev Module |
 | Slave 1 | [slave.ino](slave/slave.ino) | ESP32S3 Dev Module |
 | Slave 2 | [slave2.ino](slave2/slave2.ino) | ESP32S3 Dev Module |
-| Slave 3 (optional) | [slave3.ino](slave3/slave3.ino) | ESP32S3 Dev Module |
+| Slave 3 | [slave3.ino](slave3/slave3.ino) | ESP32S3 Dev Module |
 
 Each slave file already has its own ID. Keep the sketches in their separate folders.
 
@@ -39,7 +37,7 @@ Install **esp32 by Espressif Systems** in Arduino IDE's Boards Manager. These sk
 
 Upload each file to the matching board and USB port. For an S3's native USB socket, enable **USB CDC On Boot** and select **Hardware CDC and JTAG**. For its COM/UART socket, disable **USB CDC On Boot**.
 
-Power the boards and open the master's Serial Monitor at **115200 baud**. Wait for slaves 1 and 2 to connect, then try the button. They connect automatically; no Bluetooth pairing is needed. With two slaves, the master continues searching for the optional third.
+Power the boards and open the master's Serial Monitor at **115200 baud**. Wait for slaves 1, 2, and 3 to connect, then try the button. They connect automatically; no Bluetooth pairing is needed.
 
 ## Team members
 
