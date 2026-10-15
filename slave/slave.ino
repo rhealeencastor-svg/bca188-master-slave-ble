@@ -2,7 +2,7 @@
 #include <BLEDevice.h>
 #include <atomic>
 
-const int SLAVE_ID = 1;  // Use 1, 2, or 3 for the board being uploaded.
+const int SLAVE_ID = 1;
 const int LED_PIN = 4;
 const char *SERVICE_UUIDS[] = {
   "2b92513e-afed-40ac-afa6-e54c63acdceb",
