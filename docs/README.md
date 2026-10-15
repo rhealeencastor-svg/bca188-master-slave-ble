@@ -1,5 +1,9 @@
 # Documentation
 
+## Team
+![Team Photo 1](849211076_1357894819755009_1873546054315636643_n.jpg)
+![Team Photo 2](849908240_1588358622975638_2266061245060579666_n.jpg)
+
 ## Setup photos
 
 ![Photo 1](IMG_5468.jpg)
@@ -9,7 +13,7 @@
 
 ## Demo
 
-[🎥 Click here to watch the full documentation video](https://drive.google.com/file/d/1kcCcMRImZBvdQX3uAcBArwu-nvJS5H2h/view?usp=sharing)
+[🎥 Click here to watch](https://drive.google.com/file/d/1kcCcMRImZBvdQX3uAcBArwu-nvJS5H2h/view?usp=sharing)
 
 ## Results
 
