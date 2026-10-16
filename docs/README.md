@@ -18,20 +18,17 @@ This diagram follows the GPIO pins used in the sketches. Each board is powered b
 
 ## Serial Monitor records
 
-The setup photos include laptop screens, but clear screenshots are still needed for each board. Label each screenshot with its board role and capture both ON and OFF actions at 115200 baud.
+The [demo video](https://drive.google.com/file/d/1kcCcMRImZBvdQX3uAcBArwu-nvJS5H2h/view?usp=sharing) includes these views:
 
-| Board | Required output | Screenshot |
-| --- | --- | --- |
-| Master | Connections to slaves 1, 2, and 3; LED ON/OFF commands | To be uploaded |
-| Slave 1 | Its ID/MAC, connection, LED ON and LED OFF | To be uploaded |
-| Slave 2 | Its ID/MAC, connection, LED ON and LED OFF | To be uploaded |
-| Slave 3 | Its ID/MAC, connection, LED ON and LED OFF | To be uploaded |
+- Around 0:25: the master shows slave connection messages and LED OFF commands.
+- Around 0:42: the final demonstration begins.
+- Around 1:01: a slave's Serial Monitor shows repeated LED ON and LED OFF messages.
 
-Also record the initial message/command test with one slave before the full three-slave test.
+Separate, clearly labelled Serial Monitor screenshots for the master and each numbered slave still need to be uploaded.
 
 ## BLE addresses and UUIDs
 
-Each sketch prints its BLE MAC address when it starts. Open Serial Monitor at 115200 baud and press RESET/EN to capture it.
+Each sketch prints its BLE MAC address at startup. The four full addresses have not been transcribed from the recording. Copy the exact startup values below; they do not need to be hardcoded in the programs.
 
 | Board | BLE MAC address |
 | --- | --- |
@@ -55,19 +52,13 @@ The commands are `1` for ON and `0` for OFF.
 
 [Watch the system in operation](https://drive.google.com/file/d/1kcCcMRImZBvdQX3uAcBArwu-nvJS5H2h/view?usp=sharing)
 
-Check that the instructor has viewing access.
+The video is shared with anyone who has the link; no sign-in is required.
 
 ## Results
 
-The group reports completing the setup with one master and three slaves. The uploaded photos show the red, blue, and yellow slave LEDs lit.
+The group completed the setup with one master and three slaves. The setup photos show the red, blue, and yellow slave LEDs lit. The final demonstration starts around 0:42, and the slave monitor near 1:01 shows ON/OFF responses.
 
-| Test | Result and evidence |
-| --- | --- |
-| Initial connection/message test with one slave | To be recorded |
-| Button held with one slave connected | To be recorded |
-| Button released with one slave connected | To be recorded |
-| Button held with all three slaves connected | Add the matching Serial Monitor screenshots and video timestamp |
-| Button released with all three slaves connected | To be recorded |
+The separate initial connection/message test with one slave still needs its own record.
 
 ## Team photos
 
