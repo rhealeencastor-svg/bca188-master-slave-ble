@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="740" viewBox="0 0 1120 740" role="img" aria-labelledby="title desc">
+  <title id="title">ESP32 master and three slave wiring</title>
+  <desc id="desc">Master GPIO 18 connects through a momentary push button to its own ground. On each slave, GPIO 4 connects through a 330 ohm resistor and LED to its own ground. All four boards are powered separately by USB and communicate wirelessly through BLE.</desc>
+  <style>
+    text { font-family: Arial, sans-serif; fill: #18212b; font-size: 18px; }
+    .heading { font-size: 26px; font-weight: bold; }
+    .board { font-weight: bold; }
+    .note { font-size: 15px; fill: #53616e; }
+    .panel { fill: #f8fafc; stroke: #cbd5df; stroke-width: 1.5; }
+    .wire { fill: none; stroke: #24587b; stroke-width: 3; stroke-linejoin: round; }
+    .component { fill: #fff; stroke: #24587b; stroke-width: 3; }
+  </style>
+  <rect width="1120" height="740" fill="white"/>
+  <text x="32" y="44" class="heading">Master and Slave BLE · Circuit interface</text>
+  <text x="32" y="75" class="note">Power all four boards through USB. Each circuit below uses that board's own GND.</text>
+
+  <rect class="panel" x="32" y="102" width="1056" height="126" rx="8"/>
+  <text x="52" y="133" class="board">Master · ESP32-WROOM</text>
+  <text x="52" y="164" class="note">master/master.ino</text>
+  <text x="330" y="173">GPIO 18</text>
+  <path class="wire" d="M420 166 H560 M640 166 H824"/>
+  <circle class="component" cx="560" cy="166" r="5"/>
+  <circle class="component" cx="640" cy="166" r="5"/>
+  <path class="wire" d="M560 162 L632 141"/>
+  <text x="550" y="131" class="note">Push button</text>
+  <text x="842" y="173">GND</text>
+  <text x="330" y="207" class="note">INPUT_PULLUP · Pressing the button connects GPIO 18 to GND.</text>
+
+  <defs>
+    <g id="slave-circuit">
+      <text x="330" y="71">GPIO 4</text>
+      <path class="wire" d="M410 64 H480 M560 64 H658 M718 64 H824"/>
+      <rect class="component" x="480" y="53" width="80" height="22"/>
+      <text x="491" y="41" class="note">330 Ω</text>
+      <path class="component" d="M658 46 L698 64 L658 82 Z"/>
+      <path class="wire" d="M701 45 V83 M701 64 H718 M682 38 L704 20 M694 40 L716 22 M697 20 H704 V27 M709 22 H716 V29"/>
+      <text x="842" y="71">GND</text>
+      <text x="620" y="108" class="note">LED: long leg (+) left · short leg (−) right</text>
+    </g>
+  </defs>
+
+  <g transform="translate(0 248)">
+    <rect class="panel" x="32" y="0" width="1056" height="126" rx="8"/>
+    <text x="52" y="31" class="board">Slave 1 · ESP32-S3</text>
+    <text x="52" y="62" class="note">slave/slave.ino</text>
+    <use href="#slave-circuit"/>
+  </g>
+  <g transform="translate(0 394)">
+    <rect class="panel" x="32" y="0" width="1056" height="126" rx="8"/>
+    <text x="52" y="31" class="board">Slave 2 · ESP32-S3</text>
+    <text x="52" y="62" class="note">slave2/slave2.ino</text>
+    <use href="#slave-circuit"/>
+  </g>
+  <g transform="translate(0 540)">
+    <rect class="panel" x="32" y="0" width="1056" height="126" rx="8"/>
+    <text x="52" y="31" class="board">Slave 3 · ESP32-S3</text>
+    <text x="52" y="62" class="note">slave3/slave3.ino</text>
+    <use href="#slave-circuit"/>
+  </g>
+  <text x="32" y="702" class="note">BLE is wireless: no wires between boards. No 3V3 connection is needed for this circuit.</text>
+  <text x="32" y="726" class="note">On a four-leg push button, use contacts that connect only when the button is pressed.</text>
+</svg>
