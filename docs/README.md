@@ -6,7 +6,7 @@ Our lab setup used one ESP32-WROOM master and three ESP32-S3 slaves.
 
 ![Master and three slave wiring](wiring.svg)
 
-Our master button uses GPIO 18, and each slave LED uses GPIO 4 with a 330 Ω resistor. We powered the boards through USB, with each circuit connected to its own board's GND.
+Our master button uses GPIO 18, and each slave LED uses GPIO 4 with a 330 Ω resistor. The button's ground side and each LED's short leg connect to a breadboard ground (−) rail. We wired the ground rails to ESP32 GND and powered each board through USB.
 
 ## Setup photos
 
