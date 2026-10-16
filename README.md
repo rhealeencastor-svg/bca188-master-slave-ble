@@ -1,6 +1,8 @@
-# BCA 188: Master and Slave BLE
+# Laboratory Activity 7: Master-Slave BLE Communication (ESP32)
 
 One ESP32-WROOM master controls the LEDs on three ESP32-S3 slaves through BLE. Hold the master's button to turn the LEDs on; release it to turn them off.
+
+**Group name:** CCCG
 
 [Lab instructions](https://jomvill.notion.site/BCA-188-Master-Slave-BLE-ESP32-f29c5d2c636e4019958866113371a94f)
 
@@ -41,13 +43,19 @@ Power the boards and open the master's Serial Monitor at **115200 baud**. Wait f
 
 ## Team members
 
-- Michael O. Cadiz
-- Gazawe Casim
-- Rhea Leen P. Castor
-- Christine Gallarde
+| Member | Board role | What they worked on |
+| --- | --- | --- |
+| Michael O. Cadiz | Slave 1 | Slave device and testing |
+| Gazawe Casim | Slave 2 | Slave device and testing |
+| Rhea Leen P. Castor | Master | Programming, wiring, and testing |
+| Christine Gallarde | Slave 3 | Slave device, testing, and video recording |
 
 ## Documentation
 
-[Photos, demo, and lab response](docs/README.md)
+- [Wiring diagram for the master and all three slaves](docs/wiring.svg)
+- [Setup photos and test records](docs/README.md)
+- [Demo video](https://drive.google.com/file/d/1kcCcMRImZBvdQX3uAcBArwu-nvJS5H2h/view?usp=sharing)
 
-The group's documentation will be uploaded here.
+Before submission, add clear Serial Monitor screenshots for the master and each slave, record the board MAC addresses, and complete the one-slave and three-slave test results. Check that the instructor can open the video link.
+
+Each member submits this repository URL in MOLÉ.
