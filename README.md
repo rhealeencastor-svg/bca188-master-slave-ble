@@ -56,6 +56,6 @@ Power the boards and open the master's Serial Monitor at **115200 baud**. Wait f
 - [Setup photos and test records](docs/README.md)
 - [Demo video](https://drive.google.com/file/d/1kcCcMRImZBvdQX3uAcBArwu-nvJS5H2h/view?usp=sharing)
 
-Before submission, add clear Serial Monitor screenshots for the master and each slave, record the board MAC addresses, and complete the one-slave and three-slave test results. Check that the instructor can open the video link.
+The video includes Serial Monitor output. See the documentation for timestamps and the remaining records to add.
 
 Each member submits this repository URL in MOLÉ.
