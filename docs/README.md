@@ -10,6 +10,7 @@ Our master button uses GPIO 18, and each slave LED uses GPIO 4 with a 330 Ω res
 
 ## Setup photos
 
+![Group Setup](IMG_5468.jpg)
 
 ![Red slave LED and Serial Monitor](IMG_5484.jpg)
 
