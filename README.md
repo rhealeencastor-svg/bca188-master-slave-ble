@@ -1,6 +1,6 @@
 # Laboratory Activity 7: Master-Slave BLE Communication (ESP32)
 
-One ESP32-WROOM master controls the LEDs on three ESP32-S3 slaves through BLE. Hold the master's button to turn the LEDs on; release it to turn them off.
+We used one ESP32-WROOM as the master and three ESP32-S3 boards as slaves. Holding the master's button turns the slave LEDs on, and releasing it turns them off through BLE.
 
 **Group name:** CCCG
 
@@ -22,7 +22,7 @@ One ESP32-WROOM master controls the LEDs on three ESP32-S3 slaves through BLE. H
 | Each slave | GPIO 4 → 330 Ω resistor → LED long leg (+) |
 | Each slave | LED short leg (−) → its own GND |
 
-Power each board through USB. If using a breadboard, connect the board's GND to its ground rail. This circuit does not need a 3V3 connection or wires between boards.
+We powered each board through USB. Each LED circuit uses its own board's GND. The boards communicate wirelessly through BLE.
 
 ## Programs
 
@@ -33,13 +33,11 @@ Power each board through USB. If using a breadboard, connect the board's GND to 
 | Slave 2 | [slave2.ino](slave2/slave2.ino) | ESP32S3 Dev Module |
 | Slave 3 | [slave3.ino](slave3/slave3.ino) | ESP32S3 Dev Module |
 
-Each slave file already has its own ID. Keep the sketches in their separate folders.
+Each slave sketch has its own ID and service UUID. The master scans for these services and connects to the detected slave addresses.
 
-Install **esp32 by Espressif Systems** in Arduino IDE's Boards Manager. These sketches use version **3.3.11** and its included BLE library.
+The sketches use **esp32 by Espressif Systems 3.3.11** and its included BLE library in Arduino IDE.
 
-Upload each file to the matching board and USB port. For an S3's native USB socket, enable **USB CDC On Boot** and select **Hardware CDC and JTAG**. For its COM/UART socket, disable **USB CDC On Boot**.
-
-Power the boards and open the master's Serial Monitor at **115200 baud**. Wait for slaves 1, 2, and 3 to connect, then try the button. They connect automatically; no Bluetooth pairing is needed.
+Serial Monitor runs at **115200 baud**. The slaves connect to the master automatically.
 
 ## Team members
 
@@ -56,6 +54,4 @@ Power the boards and open the master's Serial Monitor at **115200 baud**. Wait f
 - [Setup photos and test records](docs/README.md)
 - [Demo video](https://drive.google.com/file/d/1kcCcMRImZBvdQX3uAcBArwu-nvJS5H2h/view?usp=sharing)
 
-The video includes Serial Monitor output. See the documentation for timestamps and the remaining records to add.
-
-Each member submits this repository URL in MOLÉ.
+Our documentation includes the wiring, setup photos, and timestamps for the Serial Monitor output in our video.
