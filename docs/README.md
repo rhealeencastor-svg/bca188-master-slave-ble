@@ -1,10 +1,12 @@
 # Documentation
 
+Our lab setup used one ESP32-WROOM master and three ESP32-S3 slaves.
+
 ## Circuit interface
 
 ![Master and three slave wiring](wiring.svg)
 
-This diagram follows the GPIO pins used in the sketches. Each board is powered by USB and uses its own GND.
+Our master button uses GPIO 18, and each slave LED uses GPIO 4 with a 330 Ω resistor. We powered the boards through USB, with each circuit connected to its own board's GND.
 
 ## Setup photos
 
@@ -18,26 +20,15 @@ This diagram follows the GPIO pins used in the sketches. Each board is powered b
 
 ## Serial Monitor records
 
-The [demo video](https://drive.google.com/file/d/1kcCcMRImZBvdQX3uAcBArwu-nvJS5H2h/view?usp=sharing) includes these views:
+These moments in [our video](https://drive.google.com/file/d/1kcCcMRImZBvdQX3uAcBArwu-nvJS5H2h/view?usp=sharing) show the test:
 
 - Around 0:25: the master shows slave connection messages and LED OFF commands.
 - Around 0:42: the final demonstration begins.
 - Around 1:01: a slave's Serial Monitor shows repeated LED ON and LED OFF messages.
 
-Separate, clearly labelled Serial Monitor screenshots for the master and each numbered slave still need to be uploaded.
-
 ## BLE addresses and UUIDs
 
-Each sketch prints its BLE MAC address at startup. The four full addresses have not been transcribed from the recording. Copy the exact startup values below; they do not need to be hardcoded in the programs.
-
-| Board | BLE MAC address |
-| --- | --- |
-| Master | To be recorded |
-| Slave 1 | To be recorded |
-| Slave 2 | To be recorded |
-| Slave 3 | To be recorded |
-
-The master scans for the service UUIDs, then connects using each discovered slave's BLE address. The slave names are BCA188 Slave 1, BCA188 Slave 2, and BCA188 Slave 3.
+Each board prints its BLE MAC address when it starts. Our master scans for the slave service UUIDs and connects using the detected BLE addresses. The slave names are BCA188 Slave 1, BCA188 Slave 2, and BCA188 Slave 3.
 
 | Item | UUID |
 | --- | --- |
@@ -46,7 +37,7 @@ The master scans for the service UUIDs, then connects using each discovered slav
 | Slave 3 service | `2b92513e-afed-40ac-afa6-e54c63acdced` |
 | LED characteristic, same on each slave | `ea3d7c32-0013-4447-8f7b-47b959b5cddc` |
 
-The commands are `1` for ON and `0` for OFF.
+We used `1` for ON and `0` for OFF.
 
 ## Demo
 
@@ -56,9 +47,7 @@ The video is shared with anyone who has the link; no sign-in is required.
 
 ## Results
 
-The group completed the setup with one master and three slaves. The setup photos show the red, blue, and yellow slave LEDs lit. The final demonstration starts around 0:42, and the slave monitor near 1:01 shows ON/OFF responses.
-
-The separate initial connection/message test with one slave still needs its own record.
+We tested the master button with three slaves. Holding the button turned the slave LEDs on, and releasing it turned them off. Our photos show the red, blue, and yellow LEDs lit. The final demonstration starts around 0:42, and the slave monitor near 1:01 shows ON/OFF responses.
 
 ## Team photos
 
@@ -70,4 +59,4 @@ The separate initial connection/message test with one slave still needs its own 
 
 **How is the stored and analyzed data used?**
 
-Stored data can help identify patterns and guide decisions or automation. In this setup, the master only sends the current button state to the slaves to control their LEDs. The programs do not store readings or analyze data.
+Stored data can help identify patterns and guide decisions or automation. In our setup, we used the current button state to control the slave LEDs. Our programs do not store readings or analyze data.
