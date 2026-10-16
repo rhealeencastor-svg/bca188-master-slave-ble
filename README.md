@@ -18,11 +18,12 @@ We used one ESP32-WROOM as the master and three ESP32-S3 boards as slaves. Holdi
 
 | Board | Connection |
 | --- | --- |
-| Master | GPIO 18 → button → GND |
+| Master | GPIO 18 → button → breadboard ground (−) rail |
 | Each slave | GPIO 4 → 330 Ω resistor → LED long leg (+) |
-| Each slave | LED short leg (−) → its own GND |
+| Each slave | LED short leg (−) → breadboard ground (−) rail |
+| All boards | ESP32 GND → breadboard ground (−) rail |
 
-We powered each board through USB. Each LED circuit uses its own board's GND. The boards communicate wirelessly through BLE.
+We powered each board through USB. The button and LED ground sides connect to the breadboard ground rails, which are wired to ESP32 GND. The boards communicate through BLE.
 
 ## Programs
 
